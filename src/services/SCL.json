@@ -1,0 +1,1317 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "SCL",
+    "version": "1.0",
+    "description": "SCl APIs",
+    "x-logo": {
+      "url": ""
+    }
+
+  },
+  "paths": {
+    "/user": {
+      "summary": "Get user information",
+      "description": "Logged in user account and staff information",
+      "get": {
+        "tags": [],
+        "summary": "Get logged in user's detail",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "format": "int64",
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "staff": {
+                      "$ref": "#/components/schemas/Contact"
+                    }
+                  },
+                  "required": ["username", "id", "email", "staff"],
+                  "description": "Get the logged in user's record in user table and associated staff in staff table",
+                  "example": "",
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675650675109,
+            "description": "Get user, staff info",
+            "headers": {},
+            "links": {}
+          }
+        }
+      },
+      "x-last-modified": 1675650133865
+    },
+    "/verify": {
+      "summary": "Verify authentication",
+      "description": "Verify if access token is valid",
+      "get": {
+        "tags": [],
+        "summary": "Verify if access token is valid",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "valid": {
+                      "type": "boolean",
+                      "description": "Return true if access token is valid, false otherwise"
+                    }
+                  },
+                  "required": ["valid"],
+                  "description": "Verify if access token is valid",
+                  "example": "",
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675650675109,
+            "description": "Verify if access token is valid",
+            "headers": {},
+            "links": {}
+          }
+        }
+      },
+      "x-last-modified": 1675650133865
+    },
+    "/login": {
+      "summary": "Login",
+      "x-last-modified": 1675650515756,
+      "post": {
+        "description": "Login (For testing purpose)",
+        "summary": "Login",
+        "requestBody": {
+          "description": "Login",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["username", "password"],
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "name"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "name"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Response for login staff",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Login status"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message"
+                    },
+                    "token": {
+                      "type": "string",
+                      "description": "Login token"
+                    }
+                  },
+                  "required": ["token"],
+                  "description": "",
+                  "example": "",
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675656995769,
+            "headers": {},
+            "links": {}
+          }
+        }
+      }
+    },
+    "/logout": {
+      "summary": "Logout",
+      "x-last-modified": 1675650515756,
+      "post": {
+        "description": "Logout (For testing purpose)",
+        "summary": "Logout",
+        "requestBody": {
+          "description": "Logout",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["username", "password"],
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "name"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "name"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Response for Logout staff",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Logout status"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message"
+                    }
+                  },
+                  "required": [],
+                  "description": "",
+                  "example": "",
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675656995769,
+            "headers": {},
+            "links": {}
+          }
+        }
+      }
+    },
+    "/staffs": {
+      "summary": "Get staffs",
+      "get": {
+        "tags": [],
+        "summary": "Get all staffs",
+        "description": "Get a list of staff that user's able to view, based on given access token",
+        "responses": {
+          "200": {
+            "description": "List of staffs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "List of staff that's viewable by user",
+                  "required": ["staffs", "all_staffs"],
+                  "example": "",
+                  "properties": {
+                    "staffs": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Contact"
+                      }
+                    },
+                    "all_staffs": {
+                      "type": "boolean",
+                      "description": "True if the user can view all staffs (e.g. ADMIN, SMT and STAFF1), false otherwise (e.g. STAFF2)"
+                    },
+                    "count_staffs": {
+                      "type": "integer",
+                      "description": "Total of staffs viewable by user (Redudant - For testing only)"
+                    }
+                  },
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675653483199,
+            "headers": {},
+            "links": {}
+          }
+        }
+      },
+      "x-last-modified": 1675653280112,
+      "post": {
+        "description": "Create new Contact",
+        "summary": "Create new Contact",
+        "requestBody": {
+          "description": "Create new staff record",
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["first_name", "last_name"],
+                "properties": {
+                  "id": {
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "first_name": {
+                    "type": "string",
+                    "example": "name"
+                  },
+                  "middle_name": {
+                    "type": "string",
+                    "example": "name"
+                  },
+                  "last_name": {
+                    "type": "string",
+                    "example": "name"
+                  },
+                  "status": {
+                    "type": "string",
+                    "example": "ACTIVE",
+                    "description": "ACTIVE or INACTIVE"
+                  },
+                  "position": {
+                    "type": "string",
+                    "example": "position"
+                  },
+                  "category": {
+                    "type": "string",
+                    "example": "text"
+                  },
+                  "location": {
+                    "type": "string",
+                    "example": "text"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "text"
+                  },
+                  "mobile": {
+                    "type": "string",
+                    "example": "text"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "text"
+                  },
+                  "company_id": {
+                    "format": "int64",
+                    "type": "integer",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Response for creating new staff",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "True if staff is created successfully, false otherwise"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message"
+                    },
+                    "staff": {
+                      "$ref": "#/components/schemas/Contact",
+                      "description": "Contact record that has been created"
+                    }
+                  },
+                  "required": [],
+                  "description": "",
+                  "example": "",
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675656995769,
+            "headers": {},
+            "links": {}
+          }
+        }
+      },
+      "put": {
+        "description": "Edit existing staff (Duplicated)",
+        "requestBody": {
+          "description": "Edit staff",
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["id"],
+                "properties": {
+                  "id": {
+                    "format": "int64",
+                    "type": "integer"
+                  },
+                  "first_name": {
+                    "type": "string",
+                    "example": "name"
+                  },
+                  "middle_name": {
+                    "type": "string",
+                    "example": "name"
+                  },
+                  "last_name": {
+                    "type": "string",
+                    "example": "name"
+                  },
+                  "status": {
+                    "type": "string",
+                    "example": "ACTIVE",
+                    "description": "ACTIVE or INACTIVE"
+                  },
+                  "position": {
+                    "type": "string",
+                    "example": "position"
+                  },
+                  "category": {
+                    "type": "string",
+                    "example": "text"
+                  },
+                  "location": {
+                    "type": "string",
+                    "example": "text"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "text"
+                  },
+                  "mobile": {
+                    "type": "string",
+                    "example": "text"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "text"
+                  },
+                  "company_id": {
+                    "format": "int64",
+                    "type": "integer",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Response for editing staff",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "True if staff is created successfully, false otherwise"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message"
+                    },
+                    "staff": {
+                      "$ref": "#/components/schemas/Contact",
+                      "description": "Contact record that has been created"
+                    }
+                  },
+                  "required": [],
+                  "description": "",
+                  "example": "",
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675657114088,
+            "headers": {},
+            "links": {}
+          }
+        }
+      }
+    },
+    "/companies": {
+      "summary": "API for companies",
+      "description": "API related to company",
+      "get": {
+        "tags": [],
+        "summary": "Get company list",
+        "description": "Get a list of all companies",
+        "responses": {
+          "200": {
+            "description": "Get list of companies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "description": "List of companies",
+                  "example": "",
+                  "items": {
+                    "$ref": "#/components/schemas/Company"
+                  },
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675654546254,
+            "headers": {},
+            "links": {}
+          }
+        }
+      },
+      "x-last-modified": 1675654205847
+    },
+    "/groups": {
+      "summary": "API for groups",
+      "description": "API related to group",
+      "get": {
+        "tags": [],
+        "summary": "Get group list",
+        "description": "Get a list of all groups",
+        "responses": {
+          "200": {
+            "description": "Get list of groups",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "description": "List of groups",
+                  "example": "",
+                  "items": {
+                    "$ref": "#/components/schemas/Group"
+                  },
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675654546254,
+            "headers": {},
+            "links": {}
+          }
+        }
+      },
+      "x-last-modified": 1675654205847
+    },
+    "/companiess/{id}": {
+      "summary": "Company By ID",
+      "description": "Get company  by company ID",
+      "get": {
+        "tags": [],
+        "summary": "Get company  by company ID",
+        "description": "Get company  by company ID",
+        "responses": {
+          "200": {
+            "description": "Get company  by company ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "\n",
+                  "required": [
+                    "company"
+                  ],
+                  "properties": {
+                    "company": {
+                      "$ref": "#/components/schemas/Company"
+                    }
+                  },
+                  "example": "",
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675655330486,
+            "headers": {},
+            "links": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Company ID",
+            "required": true,
+            "deprecated": false,
+            "x-last-modified": 1675655384687,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ]
+      },
+      "x-last-modified": 1675655204833
+    },
+    "/groups/{id}": {
+      "summary": "group By ID",
+      "description": "Get group  by group ID",
+      "get": {
+        "tags": [],
+        "summary": "Get group  by group ID",
+        "description": "Get group  by group ID",
+        "responses": {
+          "200": {
+            "description": "Get group  by group ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "\n",
+                  "required": [
+                    "company"
+                  ],
+                  "properties": {
+                    "group": {
+                      "$ref": "#/components/schemas/Group"
+                    }
+                  },
+                  "example": "",
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675655330486,
+            "headers": {},
+            "links": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Group ID",
+            "required": true,
+            "deprecated": false,
+            "x-last-modified": 1675655384687,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ]
+      },
+      "x-last-modified": 1675655204833
+    },
+    "/notes/{id}": {
+      "summary": "Note by ID",
+      "description": "",
+      "get": {
+        "tags": [],
+        "summary": "Get Note by ID",
+        "description": "Get Note info by Note ID",
+        "responses": {
+          "200": {
+            "description": "Get Note by ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "\n",
+                  "required": [
+                    "note"
+                  ],
+                  "properties": {
+                    "staff": {
+                      "$ref": "#/components/schemas/Note"
+                    }
+                  },
+                  "example": "",
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675655330486,
+            "headers": {},
+            "links": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Note ID",
+            "required": true,
+            "deprecated": false,
+            "x-last-modified": 1675655384687,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ]
+      },
+      "x-last-modified": 1675655204833,
+      "delete": {
+        "description": "Delete Note by ID",
+        "requestBody": {
+          
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "True if Note is delete successfully, false otherwise"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message"
+                    }
+                  },
+                  "required": [],
+                  "description": "",
+                  "example": "",
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675657365343,
+            "description": "",
+            "headers": {},
+            "links": {}
+          }
+        }
+      }
+    },
+    "/notes": {
+      "summary": "API for note",
+      "description": "Note API",
+      "get": {
+        "tags": [],
+        "summary": "Get all the notes for a staff",
+        "description": "Get all the note for a staff that the logged in user have access right",
+        "parameters": [
+          {
+            "name": "staff_id",
+            "in": "query",
+            "description": "ID the of the staff that logged in user wants to read note (equal to staff_id in the Note table)",
+            "required": true,
+            "deprecated": false,
+            "example": {
+              "staff_id": 1
+            },
+            "schema": {
+              "type": "string",
+              "description": " Contact ID"
+            },
+            "allowEmptyValue": false,
+            "x-last-modified": 1675656390590
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of notes noted for a staff by provided staff_id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items":{
+                    "$ref": "#/components/schemas/Note"
+                  },
+                  "required": [],
+                  "description": "",
+                  "example": "",
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675656545610,
+            "headers": {},
+            "links": {}
+          }
+        }
+      },
+      "post": {
+        "description": "Create new Note",
+        "summary": "Create new Note",
+        "requestBody": {
+          "description": "New note",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["note", "creator_id", "staff_id"],
+                "properties": {
+                  "note": {
+                    "type": "string",
+                    "example": "name"
+                  },
+                  "staff_id": {
+                    "format": "int64",
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "creator_id": {
+                    "format": "int64",
+                    "type": "integer",
+                    "example": 1
+                  }
+
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Response for creating note",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "True if note is created successfully, false otherwise"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message"
+                    },
+                    "note": {
+                      "$ref": "#/components/schemas/Note",
+                      "description": "Note record that has been created"
+                    }
+                  },
+                  "required": [],
+                  "description": "",
+                  "example": "",
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675656995769,
+            "headers": {},
+            "links": {}
+          }
+        }
+      }
+      
+    },
+    "/staffs/{id}": {
+      "summary": "Contact By ID",
+      "description": "Get staff  by Contact ID",
+      "get": {
+        "tags": [],
+        "summary": "Get Contact by ID",
+        "description": "Get staff info by staff ID",
+        "responses": {
+          "200": {
+            "description": "Get Contact by ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "\n",
+                  "required": [
+                    "staff"
+                  ],
+                  "properties": {
+                    "staff": {
+                      "$ref": "#/components/schemas/Contact"
+                    }
+                  },
+                  "example": "",
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675655330486,
+            "headers": {},
+            "links": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Contact ID",
+            "required": true,
+            "deprecated": false,
+            "x-last-modified": 1675655384687,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ]
+      },
+      "x-last-modified": 1675655204833,
+      "put": {
+        "description": "",
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "",
+                "example": "",
+                "externalDocs": {
+                  "url": "",
+                  "description": ""
+                },
+                "properties": {
+                  "first_name": {
+                    "type": "string",
+                    "example": "name"
+                  },
+                  "middle_name": {
+                    "type": "string",
+                    "example": "name"
+                  },
+                  "last_name": {
+                    "type": "string",
+                    "example": "name"
+                  },
+                  "status": {
+                    "type": "string",
+                    "example": "ACTIVE",
+                    "description": "ACTIVE or INACTIVE"
+                  },
+                  "position": {
+                    "type": "string",
+                    "example": "position"
+                  },
+                  "category": {
+                    "type": "string",
+                    "example": "text"
+                  },
+                  "location": {
+                    "type": "string",
+                    "example": "text"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "text"
+                  },
+                  "mobile": {
+                    "type": "string",
+                    "example": "text"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "text"
+                  },
+                  "company_id": {
+                    "format": "int64",
+                    "type": "integer",
+                    "example": 1
+                  }
+                }
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "True if staff is created successfully, false otherwise"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message"
+                    },
+                    "staff": {
+                      "$ref": "#/components/schemas/Contact",
+                      "description": "Contact record that has been created"
+                    }
+                  },
+                  "required": [],
+                  "description": "",
+                  "example": "",
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675657365343,
+            "description": "",
+            "headers": {},
+            "links": {}
+          }
+        }
+      }
+    },
+    "/can-create-staff": {
+      "summary": "Check right to create staff",
+      "description": "Check if the logged in user has the right to create new staff",
+      "get": {
+        "tags": [],
+        "summary": "Check if user can create new staff",
+        "description": "Check if user can create new staff",
+        "responses": {
+          "200": {
+            "description": "Check if use can create new staff",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean",
+                  "description": "Return true if user has right to create new staff, false otherwise",
+                  "pattern": "",
+                  "example": "",
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675654142895,
+            "headers": {},
+            "links": {}
+          }
+        }
+      },
+      "x-last-modified": 1675656683896
+    },
+    "/selectable-companies": {
+      "summary": "Get selectable companies for user who can edit staffs",
+      "description": "A list of company that user (e.g. ADMIN, SMT) can assign other staffs to. Example: Redtrain's manager gets a list of 2 companies: Redtrain and BFN",
+      "get": {
+        "tags": [],
+        "summary": "Get selectable companies for user who can edit staffs",
+        "description": "A list of company that user (e.g. ADMIN, SMT) can assign other staffs to. Example: Redtrain's manager gets a list of 2 companies: Redtrain and BFN",
+        "responses": {
+          "200": {
+            "description": "List of companies selectable to user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "description": "Return a list of company",
+                  "items": {
+                    "$ref": "#/components/schemas/Company"
+                  },
+                  "example": "",
+                  "externalDocs": {
+                    "url": "",
+                    "description": ""
+                  }
+                },
+                "example": ""
+              }
+            },
+            "x-last-modified": 1675654142895,
+            "headers": {},
+            "links": {}
+          }
+        }
+      },
+      "x-last-modified": 1675656683896
+    }
+  },
+  "components": {
+    "schemas": {
+      "Group": {
+        "type": "object",
+        "description": "Group info",
+        "required": [
+          "id",
+          "name"
+        ],
+        "x-last-modified": 1675652221740,
+        "properties": {
+          "id": {
+            "format": "int64",
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "group name"
+          }
+        }
+      },
+      "Company": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "group_id"
+        ],
+        "x-last-modified": 1675652283525,
+        "description": "Company info",
+        "properties": {
+          "id": {
+            "format": "int64",
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "group name"
+          },
+          "group_id": {
+            "format": "int64",
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "Note": {
+        "type": "object",
+        "required": [
+          "id",
+          "note",
+          "creator_id",
+          "staff_id",
+          "creator_name",
+          "deletable"
+        ],
+        "x-last-modified": 1675652361510,
+        "description": "Note info",
+        "properties": {
+          "id": {
+            "format": "int64",
+            "type": "integer",
+            "example": 1
+          },
+          "note": {
+            "type": "string",
+            "example": "note"
+          },
+          "staff_id": {
+            "format": "int64",
+            "type": "integer",
+            "example": 1
+          },
+          "creator_id": {
+            "format": "int64",
+            "type": "integer",
+            "example": 1
+          },
+          "creator_name": {
+            "type": "string",
+            "example": "note"
+          },
+          "deletable": {
+            "type": "boolean",
+            "description": "Whether user can delete this note"
+          }
+        }
+      },
+      "Contact": {
+        "type": "object",
+        "description": "Contact contact information",
+        "required": [
+          "id",
+          "first_name",
+          "last_name",
+          "status",
+          "company_id",
+          "category",
+          "location",
+          "phone",
+          "mobile",
+          "email"
+        ],
+        "x-last-modified": 1675656650279,
+        "properties": {
+          "id": {
+            "format": "int64",
+            "type": "integer",
+            "example": 1
+          },
+          "first_name": {
+            "type": "string",
+            "example": "name"
+          },
+          "middle_name": {
+            "type": "string",
+            "example": "name"
+          },
+          "last_name": {
+            "type": "string",
+            "example": "name"
+          },
+          "status": {
+            "type": "string",
+            "example": "ACTIVE",
+            "description": "ACTIVE or INACTIVE"
+          },
+          "position": {
+            "type": "string",
+            "example": "position"
+          },
+          "category": {
+            "type": "string",
+            "example": "text"
+          },
+          "location": {
+            "type": "string",
+            "example": "text"
+          },
+          "phone": {
+            "type": "string",
+            "example": "text"
+          },
+          "mobile": {
+            "type": "string",
+            "example": "text"
+          },
+          "email": {
+            "type": "string",
+            "example": "text"
+          },
+          "company_id": {
+            "format": "int64",
+            "type": "integer",
+            "example": 1,
+            "description": "This property isn't needed if `company` property is present"
+          },
+          "company": {
+            "$ref": "#/components/schemas/Company",
+            "description": "Company that associated with the company_id in the staff table"
+          },
+          "companies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Company"
+            },
+            "description": "List of Company that the staff has relationship with based on role table"
+          },
+          "group": {
+            "$ref": "#/components/schemas/Group",
+            "description": "Group that the staff belongs to, based on company_id"
+          },
+          "editable": {
+            "type": "boolean",
+            "description": "Determine whether logged in user can edit this staff info"
+          },
+          "note_viewable": {
+            "type": "boolean",
+            "description": "Determine whether logged in user can view notes related to this staff"
+          },
+          "note_creatable": {
+            "type": "boolean",
+            "description": "Determine whether logged in user can create new notes related to this staff"
+          }
+        }
+      }
+    },
+    "responses": {},
+    "parameters": {},
+    "examples": {},
+    "requestBodies": {},
+    "headers": {},
+    "securitySchemes": {
+      "DefaultSecurity": {
+        "type": "http",
+        "description": "User login token",
+        "scheme": "bearer",
+        "x-last-modified": 1675650086914
+      }
+    },
+    "links": {},
+    "callbacks": {}
+  },
+  "security": [
+    {
+      "DefaultSecurity": []
+    }
+  ],
+  "tags": []
+}
